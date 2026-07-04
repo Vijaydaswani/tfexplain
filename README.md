@@ -30,16 +30,26 @@ Terraform plans are powerful but noisy. `tfexplain` turns Terraform code and pla
 
 ## Install for Development
 
+Install from PyPI:
+
+```bash
+pip install bna-tfexplain
+```
+
+Then run:
+
+```bash
+tfexplain --help
+```
+
+The PyPI package name is `bna-tfexplain`; the CLI command remains `tfexplain`.
+
+For local development:
+
 ```bash
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install -e .
-```
-
-PyPI install, planned for a later release:
-
-```bash
-pip install tfexplain
 ```
 
 You can also run it without installing:
