@@ -1,0 +1,41 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.8.5",
+  "resource_changes": [
+    {
+      "address": "cloudflare_record.app",
+      "mode": "managed",
+      "type": "cloudflare_record",
+      "name": "app",
+      "provider_name": "registry.terraform.io/cloudflare/cloudflare",
+      "change": {
+        "actions": ["update"],
+        "before": {
+          "name": "app",
+          "value": "old.example.net",
+          "proxied": false
+        },
+        "after": {
+          "name": "app",
+          "value": "new.example.net",
+          "proxied": true
+        }
+      }
+    },
+    {
+      "address": "cloudflare_ruleset.cache",
+      "mode": "managed",
+      "type": "cloudflare_ruleset",
+      "name": "cache",
+      "provider_name": "registry.terraform.io/cloudflare/cloudflare",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "cache-static",
+          "phase": "http_request_cache_settings"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tfexplain"
+version = "0.1.0"
+description = "Open-source CLI for explaining Terraform code and plans in human-readable form."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "Vijay Daswani" }
+]
+license = { text = "Apache-2.0" }
+keywords = ["terraform", "cli", "iac", "plan", "infrastructure", "open-source"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Quality Assurance",
+  "Topic :: Utilities"
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://buildnautomate.com"
+Company = "https://buildnautomate.com"
+
+[project.scripts]
+tfexplain = "tfexplain.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

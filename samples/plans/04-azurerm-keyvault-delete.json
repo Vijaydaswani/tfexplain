@@ -1,0 +1,37 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.8.5",
+  "resource_changes": [
+    {
+      "address": "azurerm_key_vault_secret.legacy_password",
+      "mode": "managed",
+      "type": "azurerm_key_vault_secret",
+      "name": "legacy_password",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "change": {
+        "actions": ["delete"],
+        "before": {
+          "name": "legacy-password",
+          "content_type": "password"
+        },
+        "after": null
+      }
+    },
+    {
+      "address": "azurerm_role_assignment.ops",
+      "mode": "managed",
+      "type": "azurerm_role_assignment",
+      "name": "ops",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "change": {
+        "actions": ["no-op"],
+        "before": {
+          "role_definition_name": "Reader"
+        },
+        "after": {
+          "role_definition_name": "Reader"
+        }
+      }
+    }
+  ]
+}

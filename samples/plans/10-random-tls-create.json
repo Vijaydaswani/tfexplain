@@ -1,0 +1,57 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.8.5",
+  "resource_changes": [
+    {
+      "address": "random_pet.suffix",
+      "mode": "managed",
+      "type": "random_pet",
+      "name": "suffix",
+      "provider_name": "registry.terraform.io/hashicorp/random",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "length": 2,
+          "separator": "-"
+        },
+        "after_unknown": {
+          "id": true
+        }
+      }
+    },
+    {
+      "address": "tls_private_key.deploy",
+      "mode": "managed",
+      "type": "tls_private_key",
+      "name": "deploy",
+      "provider_name": "registry.terraform.io/hashicorp/tls",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "algorithm": "RSA",
+          "rsa_bits": 2048
+        },
+        "after_unknown": {
+          "private_key_pem": true,
+          "public_key_openssh": true
+        }
+      }
+    },
+    {
+      "address": "local_file.public_key",
+      "mode": "managed",
+      "type": "local_file",
+      "name": "public_key",
+      "provider_name": "registry.terraform.io/hashicorp/local",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "filename": "./generated/sample.pub"
+        }
+      }
+    }
+  ]
+}

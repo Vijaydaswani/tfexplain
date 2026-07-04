@@ -1,0 +1,47 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.8.5",
+  "resource_changes": [
+    {
+      "address": "google_container_cluster.primary",
+      "mode": "managed",
+      "type": "google_container_cluster",
+      "name": "primary",
+      "provider_name": "registry.terraform.io/hashicorp/google",
+      "change": {
+        "actions": ["delete", "create"],
+        "replace_paths": [["location"]],
+        "before": {
+          "name": "primary",
+          "location": "us-central1",
+          "initial_node_count": 1
+        },
+        "after": {
+          "name": "primary",
+          "location": "us-east1",
+          "initial_node_count": 1
+        },
+        "after_unknown": {
+          "endpoint": true,
+          "master_version": true
+        }
+      }
+    },
+    {
+      "address": "google_container_node_pool.workload",
+      "mode": "managed",
+      "type": "google_container_node_pool",
+      "name": "workload",
+      "provider_name": "registry.terraform.io/hashicorp/google",
+      "change": {
+        "actions": ["update"],
+        "before": {
+          "node_count": 2
+        },
+        "after": {
+          "node_count": 4
+        }
+      }
+    }
+  ]
+}

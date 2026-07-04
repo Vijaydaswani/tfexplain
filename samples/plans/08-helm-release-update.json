@@ -1,0 +1,41 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.8.5",
+  "resource_changes": [
+    {
+      "address": "helm_release.metrics",
+      "mode": "managed",
+      "type": "helm_release",
+      "name": "metrics",
+      "provider_name": "registry.terraform.io/hashicorp/helm",
+      "change": {
+        "actions": ["update"],
+        "before": {
+          "chart": "metrics-server",
+          "version": "3.11.0",
+          "values": ["replicas: 1"]
+        },
+        "after": {
+          "chart": "metrics-server",
+          "version": "3.12.1",
+          "values": ["replicas: 2"]
+        }
+      }
+    },
+    {
+      "address": "helm_release.ingress_nginx",
+      "mode": "managed",
+      "type": "helm_release",
+      "name": "ingress_nginx",
+      "provider_name": "registry.terraform.io/hashicorp/helm",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "chart": "ingress-nginx",
+          "namespace": "ingress"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.8.5",
+  "resource_changes": [
+    {
+      "address": "google_service_account.runtime",
+      "mode": "managed",
+      "type": "google_service_account",
+      "name": "runtime",
+      "provider_name": "registry.terraform.io/hashicorp/google",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "account_id": "sample-api-runtime",
+          "display_name": "Cloud Run runtime service account"
+        },
+        "after_unknown": {
+          "email": true,
+          "unique_id": true
+        }
+      }
+    },
+    {
+      "address": "google_cloud_run_v2_service.api",
+      "mode": "managed",
+      "type": "google_cloud_run_v2_service",
+      "name": "api",
+      "provider_name": "registry.terraform.io/hashicorp/google",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "sample-api",
+          "location": "us-central1"
+        },
+        "after_unknown": {
+          "uri": true,
+          "latest_ready_revision": true
+        }
+      }
+    }
+  ]
+}

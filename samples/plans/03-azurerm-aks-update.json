@@ -1,0 +1,52 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.8.5",
+  "resource_changes": [
+    {
+      "address": "azurerm_kubernetes_cluster.main",
+      "mode": "managed",
+      "type": "azurerm_kubernetes_cluster",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "change": {
+        "actions": ["update"],
+        "before": {
+          "kubernetes_version": "1.28.5",
+          "default_node_pool": [
+            {
+              "node_count": 2,
+              "vm_size": "Standard_DS2_v2"
+            }
+          ]
+        },
+        "after": {
+          "kubernetes_version": "1.29.4",
+          "default_node_pool": [
+            {
+              "node_count": 3,
+              "vm_size": "Standard_DS2_v2"
+            }
+          ]
+        },
+        "after_unknown": {
+          "kube_config_raw": true
+        }
+      }
+    },
+    {
+      "address": "azurerm_public_ip.gateway",
+      "mode": "managed",
+      "type": "azurerm_public_ip",
+      "name": "gateway",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "allocation_method": "Static",
+          "sku": "Standard"
+        }
+      }
+    }
+  ]
+}

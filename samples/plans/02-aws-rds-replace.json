@@ -1,0 +1,49 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.8.5",
+  "resource_changes": [
+    {
+      "address": "aws_db_instance.main",
+      "mode": "managed",
+      "type": "aws_db_instance",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["delete", "create"],
+        "replace_paths": [["engine_version"], ["storage_type"]],
+        "before": {
+          "identifier": "app-db",
+          "engine_version": "14.11",
+          "storage_type": "gp2",
+          "allocated_storage": 50
+        },
+        "after": {
+          "identifier": "app-db",
+          "engine_version": "15.6",
+          "storage_type": "gp3",
+          "allocated_storage": 50
+        },
+        "after_unknown": {
+          "endpoint": true,
+          "address": true
+        }
+      }
+    },
+    {
+      "address": "aws_security_group_rule.db_ingress",
+      "mode": "managed",
+      "type": "aws_security_group_rule",
+      "name": "db_ingress",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["update"],
+        "before": {
+          "cidr_blocks": ["10.0.0.0/24"]
+        },
+        "after": {
+          "cidr_blocks": ["10.0.0.0/16"]
+        }
+      }
+    }
+  ]
+}

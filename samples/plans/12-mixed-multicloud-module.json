@@ -1,0 +1,65 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.8.5",
+  "resource_changes": [
+    {
+      "address": "module.network.aws_vpc.main",
+      "module_address": "module.network",
+      "mode": "managed",
+      "type": "aws_vpc",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["update"],
+        "before": {
+          "cidr_block": "10.0.0.0/16",
+          "enable_dns_hostnames": false
+        },
+        "after": {
+          "cidr_block": "10.0.0.0/16",
+          "enable_dns_hostnames": true
+        }
+      }
+    },
+    {
+      "address": "module.identity.azurerm_user_assigned_identity.app",
+      "module_address": "module.identity",
+      "mode": "managed",
+      "type": "azurerm_user_assigned_identity",
+      "name": "app",
+      "provider_name": "registry.terraform.io/hashicorp/azurerm",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "name": "app-identity",
+          "location": "eastus"
+        },
+        "after_unknown": {
+          "principal_id": true,
+          "client_id": true
+        }
+      }
+    },
+    {
+      "address": "module.edge.cloudflare_record.api",
+      "module_address": "module.edge",
+      "mode": "managed",
+      "type": "cloudflare_record",
+      "name": "api",
+      "provider_name": "registry.terraform.io/cloudflare/cloudflare",
+      "change": {
+        "actions": ["delete", "create"],
+        "replace_paths": [["name"]],
+        "before": {
+          "name": "api-old",
+          "value": "api-old.example.com"
+        },
+        "after": {
+          "name": "api",
+          "value": "api.example.com"
+        }
+      }
+    }
+  ]
+}

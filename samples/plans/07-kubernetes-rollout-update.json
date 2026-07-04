@@ -1,0 +1,60 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.8.5",
+  "resource_changes": [
+    {
+      "address": "kubernetes_deployment.api",
+      "mode": "managed",
+      "type": "kubernetes_deployment",
+      "name": "api",
+      "provider_name": "registry.terraform.io/hashicorp/kubernetes",
+      "change": {
+        "actions": ["update"],
+        "before": {
+          "metadata": [
+            {
+              "name": "api",
+              "namespace": "sample"
+            }
+          ],
+          "spec": [
+            {
+              "replicas": 2
+            }
+          ]
+        },
+        "after": {
+          "metadata": [
+            {
+              "name": "api",
+              "namespace": "sample"
+            }
+          ],
+          "spec": [
+            {
+              "replicas": 4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "address": "kubernetes_secret.db",
+      "mode": "managed",
+      "type": "kubernetes_secret",
+      "name": "db",
+      "provider_name": "registry.terraform.io/hashicorp/kubernetes",
+      "change": {
+        "actions": ["delete"],
+        "before": {
+          "metadata": [
+            {
+              "name": "db"
+            }
+          ]
+        },
+        "after": null
+      }
+    }
+  ]
+}

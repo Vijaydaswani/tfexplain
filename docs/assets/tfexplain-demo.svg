@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="430" viewBox="0 0 920 430" role="img" aria-label="tfexplain terminal demo">
+  <rect width="920" height="430" rx="10" fill="#111827"/>
+  <rect x="0" y="0" width="920" height="38" rx="10" fill="#1f2937"/>
+  <circle cx="22" cy="19" r="6" fill="#ef4444"/>
+  <circle cx="44" cy="19" r="6" fill="#f59e0b"/>
+  <circle cx="66" cy="19" r="6" fill="#10b981"/>
+  <text x="90" y="24" font-family="Menlo, Consolas, monospace" font-size="13" fill="#d1d5db">terraform plan -no-color | tfexplain</text>
+  <text x="28" y="70" font-family="Menlo, Consolas, monospace" font-size="15" fill="#a7f3d0">$ terraform plan -no-color | tfexplain</text>
+  <text x="28" y="112" font-family="Menlo, Consolas, monospace" font-size="16" fill="#f9fafb">Terraform Plan Summary</text>
+  <text x="28" y="146" font-family="Menlo, Consolas, monospace" font-size="14" fill="#d1d5db">Plan file: stdin</text>
+  <text x="28" y="172" font-family="Menlo, Consolas, monospace" font-size="14" fill="#d1d5db">Create: 3    Update: 0    Replace: 0    Delete: 0</text>
+  <text x="28" y="198" font-family="Menlo, Consolas, monospace" font-size="14" fill="#d1d5db">Risk Score: Low (1)</text>
+  <text x="28" y="242" font-family="Menlo, Consolas, monospace" font-size="15" fill="#f9fafb">Resource Changes by Action:</text>
+  <text x="28" y="274" font-family="Menlo, Consolas, monospace" font-size="14" fill="#c4b5fd">create:</text>
+  <text x="52" y="304" font-family="Menlo, Consolas, monospace" font-size="14" fill="#d1d5db">- terraform_data.generated_name: create (low, score 1)</text>
+  <text x="52" y="330" font-family="Menlo, Consolas, monospace" font-size="14" fill="#d1d5db">- terraform_data.service_config: create (low, score 1)</text>
+  <text x="52" y="356" font-family="Menlo, Consolas, monospace" font-size="14" fill="#d1d5db">- terraform_data.release_gate: create (low, score 1)</text>
+  <text x="28" y="398" font-family="Menlo, Consolas, monospace" font-size="13" fill="#9ca3af">Open-source CLI by Build &amp; Automate</text>
+</svg>

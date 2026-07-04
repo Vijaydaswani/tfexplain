@@ -1,0 +1,8 @@
+generated/*
+!generated/.gitkeep
+source/**/.terraform/
+source/**/.terraform.lock.hcl
+source/**/terraform.tfstate
+source/**/terraform.tfstate.backup
+source/**/*.tfstate
+source/**/*.tfstate.backup
