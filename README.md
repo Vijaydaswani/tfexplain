@@ -14,7 +14,11 @@ Community: [Join the Build & Automate Slack](https://join.slack.com/share/enQtMT
 
 By default, `tfexplain` is deterministic and dependency-free. It does not call AI services, does not run `terraform apply`, and does not send code or plan contents anywhere. AI-assisted output is available only when you explicitly pass `--ai`.
 
-![tfexplain terminal demo](docs/assets/tfexplain-demo.svg)
+## Demo
+
+<video controls src="docs/assets/tfexplain-demo.mov" title="tfexplain demo"></video>
+
+[![tfexplain terminal demo](docs/assets/tfexplain-demo.svg)](docs/assets/tfexplain-demo.mov)
 
 ## Why tfexplain?
 
