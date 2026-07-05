@@ -56,9 +56,9 @@ jobs:
           - label: linux-x86_64
             os: ubuntu-latest
             asset_name: tfexplain-linux-x86_64.zip
-          - label: macos-x86_64
-            os: macos-13
-            asset_name: tfexplain-macos-x86_64.zip
+          - label: macos
+            os: macos-latest
+            asset_name: tfexplain-macos.zip
           - label: windows-x86_64
             os: windows-latest
             asset_name: tfexplain-windows-x86_64.zip

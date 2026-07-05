@@ -6,6 +6,13 @@ The project follows semantic versioning while the public API is still early.
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-07-06
+
+### Fixed
+
+- Switched the macOS release binary build from `macos-13` to `macos-latest` to avoid unavailable runner queues.
+- Renamed the macOS release bundle to `tfexplain-macos.zip` so it does not imply a specific CPU architecture.
+
 ## [0.1.2] - 2026-07-06
 
 ### Added

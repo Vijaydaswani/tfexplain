@@ -1,6 +1,6 @@
 # tfexplain
 
-[![Version](https://img.shields.io/badge/version-0.1.2-blue)](#)
+[![Version](https://img.shields.io/badge/version-0.1.3-blue)](#)
 [![License](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
 [![Terraform](https://img.shields.io/badge/terraform-plan%20explainer-purple)](#)
 
