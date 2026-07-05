@@ -22,7 +22,7 @@ class CliTest(unittest.TestCase):
 
         self.assertEqual(code, 0)
         rendered = stdout.getvalue()
-        self.assertIn("tfexplain 0.1.0", rendered)
+        self.assertIn("tfexplain 0.1.1", rendered)
         self.assertIn("Open-source CLI for explaining Terraform code and plans.", rendered)
         self.assertIn("Package: bna-tools/tfexplain", rendered)
         self.assertIn("Author: Vijay Daswani", rendered)

@@ -134,20 +134,31 @@ PLAN_TEXT_ACTIONS = {
     "will be read during apply": "read",
 }
 
+PLAN_TEXT_MARKERS = (
+    "Terraform will perform the following actions:",
+    "OpenTofu will perform the following actions:",
+    "No changes.",
+)
+
+PLAN_TEXT_RESOURCE_RE = re.compile(
+    r"#\s+(.+?)\s+"
+    r"(will be created|will be updated in-place|will be destroyed|must be replaced|will be read during apply)\s*$"
+)
+
 
 def parse_terraform_plan_text(plan_text: str, source: str = "stdin") -> PlanAnalysis:
     clean_text = strip_ansi(plan_text)
-    if "Terraform will perform the following actions:" not in clean_text and "No changes." not in clean_text:
+    if not any(marker in clean_text for marker in PLAN_TEXT_MARKERS):
         raise AnalysisError(
             f"Plan input from {source} must be Terraform JSON from `terraform show -json` "
-            "or human-readable `terraform plan` text."
+            "or human-readable `terraform plan`, `tofu plan`, or `terragrunt plan` text."
         )
 
     changes: list[ResourceChange] = []
     counts: Counter[str] = Counter()
 
     for line in clean_text.splitlines():
-        match = re.match(r"^\s*#\s+(.+?)\s+(will be created|will be updated in-place|will be destroyed|must be replaced|will be read during apply)\s*$", line)
+        match = PLAN_TEXT_RESOURCE_RE.search(line)
         if not match:
             continue
 

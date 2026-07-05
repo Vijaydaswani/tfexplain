@@ -1,6 +1,6 @@
 # tfexplain
 
-[![Version](https://img.shields.io/badge/version-0.1.0-blue)](#)
+[![Version](https://img.shields.io/badge/version-0.1.1-blue)](#)
 [![License](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
 [![Terraform](https://img.shields.io/badge/terraform-plan%20explainer-purple)](#)
 
@@ -71,6 +71,19 @@ terraform plan -no-color | tfexplain
 ```
 
 Raw plan text gives an action/resource summary. For richer field-level details, use a saved plan or Terraform JSON.
+
+Terragrunt works the same way for a single module:
+
+```bash
+terragrunt plan -no-color | tfexplain
+```
+
+For richer details with Terragrunt:
+
+```bash
+terragrunt plan -out=tfplan
+terragrunt show -json tfplan | tfexplain plan -
+```
 
 ```bash
 terraform plan -out=tfplan

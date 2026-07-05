@@ -87,8 +87,32 @@ class PlanAnalysisTest(unittest.TestCase):
         self.assertEqual(analysis.counts["replace"], 1)
         self.assertEqual(analysis.changes[0].provider, "terraform")
 
+    def test_reads_terragrunt_prefixed_plan_text_from_stdin_marker(self) -> None:
+        analysis = analyze_plan("-", stdin_text=sample_terragrunt_plan_text())
+
+        self.assertEqual(analysis.path, "stdin")
+        self.assertEqual(analysis.counts["create"], 1)
+        self.assertEqual(analysis.counts["update"], 1)
+        self.assertEqual(analysis.counts["replace"], 1)
+        self.assertEqual(analysis.counts["delete"], 1)
+        self.assertEqual(
+            [change.address for change in analysis.changes],
+            [
+                "aws_instance.web",
+                "module.network.aws_vpc.main",
+                "aws_db_instance.main",
+                "aws_security_group.legacy",
+            ],
+        )
+
+    def test_reads_opentofu_plan_text_from_stdin_marker(self) -> None:
+        analysis = analyze_plan("-", stdin_text=sample_opentofu_plan_text())
+
+        self.assertEqual(analysis.counts["create"], 1)
+        self.assertEqual(analysis.changes[0].address, "random_pet.name")
+
     def test_rejects_unknown_stdin_text(self) -> None:
-        with self.assertRaisesRegex(AnalysisError, "must be Terraform JSON"):
+        with self.assertRaisesRegex(AnalysisError, "terragrunt plan"):
             analyze_plan("-", stdin_text="not a terraform plan\n")
 
 
@@ -166,4 +190,46 @@ Terraform will perform the following actions:
     }
 
 Plan: 2 to add, 1 to change, 1 to destroy.
+"""
+
+
+def sample_terragrunt_plan_text() -> str:
+    return """
+time=2026-07-05T09:00:00Z level=info msg=Running command: terraform plan prefix=[live/dev/app]
+09:00:01.000 STDOUT terraform: Terraform will perform the following actions:
+09:00:01.000 STDOUT terraform:
+09:00:01.000 STDOUT terraform:   # aws_instance.web will be created
+09:00:01.000 STDOUT terraform:   + resource "aws_instance" "web" {
+09:00:01.000 STDOUT terraform:       + id = (known after apply)
+09:00:01.000 STDOUT terraform:     }
+09:00:01.000 STDOUT terraform:
+09:00:01.000 STDOUT terraform:   # module.network.aws_vpc.main will be updated in-place
+09:00:01.000 STDOUT terraform:   ~ resource "aws_vpc" "main" {
+09:00:01.000 STDOUT terraform:       id = "vpc-123"
+09:00:01.000 STDOUT terraform:     }
+09:00:01.000 STDOUT terraform:
+09:00:01.000 STDOUT terraform:   # aws_db_instance.main must be replaced
+09:00:01.000 STDOUT terraform: -/+ resource "aws_db_instance" "main" {
+09:00:01.000 STDOUT terraform:       id = "db-123"
+09:00:01.000 STDOUT terraform:     }
+09:00:01.000 STDOUT terraform:
+09:00:01.000 STDOUT terraform:   # aws_security_group.legacy will be destroyed
+09:00:01.000 STDOUT terraform:   - resource "aws_security_group" "legacy" {
+09:00:01.000 STDOUT terraform:       id = "sg-123"
+09:00:01.000 STDOUT terraform:     }
+09:00:01.000 STDOUT terraform:
+09:00:01.000 STDOUT terraform: Plan: 2 to add, 1 to change, 2 to destroy.
+"""
+
+
+def sample_opentofu_plan_text() -> str:
+    return """
+10:00:00.000 STDOUT tofu: OpenTofu will perform the following actions:
+10:00:00.000 STDOUT tofu:
+10:00:00.000 STDOUT tofu:   # random_pet.name will be created
+10:00:00.000 STDOUT tofu:   + resource "random_pet" "name" {
+10:00:00.000 STDOUT tofu:       + id = (known after apply)
+10:00:00.000 STDOUT tofu:     }
+10:00:00.000 STDOUT tofu:
+10:00:00.000 STDOUT tofu: Plan: 1 to add, 0 to change, 0 to destroy.
 """
