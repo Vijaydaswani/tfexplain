@@ -1,6 +1,6 @@
 # tfexplain
 
-[![Version](https://img.shields.io/badge/version-0.1.1-blue)](#)
+[![Version](https://img.shields.io/badge/version-0.1.2-blue)](#)
 [![License](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
 [![Terraform](https://img.shields.io/badge/terraform-plan%20explainer-purple)](#)
 
@@ -47,6 +47,8 @@ tfexplain --help
 ```
 
 The PyPI package name is `bna-tfexplain`; the CLI command remains `tfexplain`.
+
+Standalone binary bundles for Linux, macOS, and Windows are attached to GitHub releases.
 
 For local development:
 

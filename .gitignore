@@ -15,6 +15,7 @@ venv/
 build/
 dist/
 *.egg-info/
+*.spec
 .terraform/
 .terraform.lock.hcl
 terraform.tfstate
