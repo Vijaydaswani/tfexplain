@@ -63,13 +63,82 @@ class PlanAnalysisTest(unittest.TestCase):
         self.assertEqual(run.call_args.args[0], ["terraform", "show", "-json", path.as_posix()])
         self.assertEqual(analysis.counts["replace"], 1)
 
-    def test_reports_missing_terraform_for_saved_tfplan(self) -> None:
+    def test_converts_saved_tfplan_with_tofu_fallback(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "tfplan"
+            path.write_bytes(b"\x00tfplan-binary-placeholder")
+
+            def fake_run(command: list[str], **_: object) -> SimpleNamespace:
+                if command[0] == "terraform":
+                    return SimpleNamespace(returncode=1, stdout="", stderr="unsupported state or plan file")
+                if command[0] == "tofu":
+                    return SimpleNamespace(returncode=0, stdout=json.dumps(sample_plan()), stderr="")
+                raise AssertionError(f"unexpected command: {command}")
+
+            with patch("tfexplain.plan.subprocess.run", side_effect=fake_run) as run:
+                analysis = analyze_plan(path)
+
+        self.assertEqual([call.args[0][0] for call in run.call_args_list], ["terraform", "tofu"])
+        self.assertEqual(analysis.counts["replace"], 1)
+
+    def test_converts_saved_tfplan_with_terragrunt_fallback_logs(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "tfplan"
+            path.write_bytes(b"\x00tfplan-binary-placeholder")
+
+            def fake_run(command: list[str], **_: object) -> SimpleNamespace:
+                if command[0] in {"terraform", "tofu"}:
+                    raise FileNotFoundError
+                return SimpleNamespace(
+                    returncode=0,
+                    stdout="time=2026-07-06T00:00:00Z level=info msg=show\n" + json.dumps(sample_plan()),
+                    stderr="",
+                )
+
+            with patch("tfexplain.plan.subprocess.run", side_effect=fake_run) as run:
+                analysis = analyze_plan(path)
+
+        self.assertEqual([call.args[0][0] for call in run.call_args_list], ["terraform", "tofu", "terragrunt"])
+        self.assertEqual(analysis.counts["replace"], 1)
+
+    def test_reads_human_plan_text_from_file(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "afw.json"
+            path.write_text(sample_opentofu_plan_text(), encoding="utf-8")
+
+            analysis = analyze_plan(path)
+
+        self.assertEqual(analysis.path, path.as_posix())
+        self.assertEqual(analysis.counts["create"], 1)
+        self.assertEqual(analysis.changes[0].address, "random_pet.name")
+
+    def test_reports_non_json_json_file_with_plan_command_hint(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "afw.json"
+            path.write_text("20:40:21.277 STDOUT tofu: Saved the plan to: tfplan\n", encoding="utf-8")
+
+            with self.assertRaisesRegex(AnalysisError, "plan -out=json"):
+                analyze_plan(path)
+
+    def test_reads_json_file_with_leading_tool_log_line(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "afw.json"
+            path.write_text(
+                "time=2026-07-06T00:00:00Z level=info msg=show\n" + json.dumps(sample_plan()),
+                encoding="utf-8",
+            )
+
+            analysis = analyze_plan(path)
+
+        self.assertEqual(analysis.counts["replace"], 1)
+
+    def test_reports_missing_plan_converter_for_saved_tfplan(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "tfplan"
             path.write_bytes(b"\x00tfplan-binary-placeholder")
 
             with patch("tfexplain.plan.subprocess.run", side_effect=FileNotFoundError):
-                with self.assertRaisesRegex(AnalysisError, "Terraform executable was not found"):
+                with self.assertRaisesRegex(AnalysisError, "Terraform, OpenTofu, or Terragrunt executable was not found"):
                     analyze_plan(path)
 
     def test_reads_plan_json_from_stdin_marker(self) -> None:

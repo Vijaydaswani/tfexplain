@@ -6,6 +6,15 @@ The project follows semantic versioning while the public API is still early.
 
 ## [Unreleased]
 
+### Added
+
+- Saved plan conversion now falls back from `terraform show -json` to `tofu show -json` and `terragrunt show -json`.
+- Human-readable Terraform, OpenTofu, and Terragrunt plan text can now be read from files, not only stdin.
+
+### Changed
+
+- Added clearer guidance when a `.json` file is not real Terraform plan JSON, including the common `plan -out=json` mistake.
+
 ## [0.1.3] - 2026-07-06
 
 ### Fixed

@@ -80,11 +80,24 @@ Terragrunt works the same way for a single module:
 terragrunt plan -no-color | tfexplain
 ```
 
+OpenTofu works the same way:
+
+```bash
+tofu plan -no-color | tfexplain
+```
+
 For richer details with Terragrunt:
 
 ```bash
 terragrunt plan -out=tfplan
 terragrunt show -json tfplan | tfexplain plan -
+```
+
+For richer details with OpenTofu:
+
+```bash
+tofu plan -out=tfplan
+tofu show -json tfplan | tfexplain plan -
 ```
 
 ```bash
@@ -105,7 +118,17 @@ Or stream Terraform JSON through stdin:
 terraform show -json tfplan | tfexplain plan -
 ```
 
-Passing a saved binary plan file requires the `terraform` executable to be installed because `tfexplain` converts it locally with `terraform show -json`.
+Passing a saved binary plan file requires `terraform`, `tofu`, or `terragrunt` to be installed because `tfexplain` converts it locally with `show -json`.
+
+For OpenTofu and Terragrunt saved plans, `tfexplain` tries `terraform show -json`, then `tofu show -json`, then `terragrunt show -json`.
+
+Important: `terraform plan -out=json`, `tofu plan -out=json`, and `terragrunt plan -out=json` do not create JSON. They create a saved binary plan file named `json`. To create JSON, run `show -json` against a saved plan:
+
+```bash
+terragrunt plan -out=tfplan
+terragrunt show -json tfplan > plan.json
+tfexplain plan plan.json
+```
 
 This also works:
 
